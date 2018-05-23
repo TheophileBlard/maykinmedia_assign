@@ -1,0 +1,14 @@
+{% extends "hotels_base.html" %}
+
+{% block title %}Normal{% endblock %}
+
+{% block form %}
+<form action="" method="post">
+       {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>   
+
+    <input type="submit" value="Refresh" />   
+</form>
+{% endblock %}

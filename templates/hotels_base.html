@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Available Hotels - {% block title %}{% endblock %}</title>
+		{% block head %}{% endblock %}
+	</head>
+	<body>
+		<h2>Choose a city : </h2>
+
+		<section id="Form">
+			{% block form %}{% endblock %}	
+		</section>
+
+		<section id="Hotels">
+			<h2>Available hotels : </h2>
+
+			<ul>
+			{% for h in hotel_list %}
+			    <li>{{ h.name }} ({{ h.hotelID }})</li>
+			{% empty %}
+			    <li>Please choose a city</li>
+			{% endfor %}
+			</ul>
+			
+		</section>		
+
+	</body>
+</html>

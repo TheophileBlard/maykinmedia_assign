@@ -11,29 +11,31 @@ autocomplete = True
 
 def get_city(request):
     
-	if request.method == 'POST':
+    if request.method == 'POST':
 
-		if(autocomplete):
-			
-			try:
-				city_id = City.objects.get(name=request.POST['city_name']).ID
-				hotel_list = Hotel.objects.filter(cityID=city_id)
-			except:
-				hotel_list=[]
-			return render(request, 'hotels_complete.html', {'hotel_list' : hotel_list})					
+        if(autocomplete):                        
+            try:                
+                city_id=City.objects.get(name=request.POST['city_name']).cityID
+                hotel_list = Hotel.objects.filter(cityID=city_id)
+            except:
+                hotel_list=[]
+        
+            return render(request, 'hotels_complete.html', {'hotel_list' : hotel_list})                 
 
-		else:
+        else:
 
-			form = CityForm(request.POST)
-			if form.is_valid():				          
-				return render(request, 'hotels.html', {'form': form, 'hotel_list' : Hotel.objects.filter(cityID=request.POST['city'])})		
+            form = CityForm(request.POST)
+            if form.is_valid():                
+                city_id=City.objects.get(id=request.POST['city']).cityID               
+                return render(request, 'hotels_normal.html', {'form': form, 'hotel_list' : Hotel.objects.filter(cityID=city_id)})      
 
-	#If GET :
-	if(autocomplete):
-		return render(request, 'hotels_complete.html')
-	else:
-		form = CityForm()
-		return render(request, 'hotels.html', {'form': form})
+
+    #If GET :
+    if(autocomplete):
+        return render(request, 'hotels_complete.html')
+    else:
+        form = CityForm()
+        return render(request, 'hotels_normal.html', {'form': form})
 
 
 def get_cities(request):
@@ -43,7 +45,7 @@ def get_cities(request):
         results = []
         for city in cities:
             city_json = {}
-            city_json['id'] = city.ID
+            city_json['id'] = city.cityID
             city_json['label'] = city.name
             city_json['value'] = city.name
             results.append(city_json)
